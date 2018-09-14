@@ -1,8 +1,18 @@
 'use strict';
 
+// 핸들이 원래 위치에 있는경우
+var HANDLE_STATUS_FIXED = 0;
+// 핸들이 떨어지는경우
+var HANDLE_STATUS_FALL = 1;
+// 핸들이 올라가는경우
+var HANDLE_STATUS_GOUP = 2;
+
 var app = null;
 var conch = null;
 var handle = null;
+
+var handleWeight = 10;
+var lineHeight = 200;
 
 // 페이지 로딩완료
 window.onload = function () {
@@ -34,8 +44,26 @@ window.onload = function () {
         .on('pointerup', onDragEnd)
         .on('pointerupoutside', onDragEnd)
         .on('pointermove', onDragMove);
+    handle.status = HANDLE_STATUS_FIXED;
     app.stage.addChild(handle);
     onRender();
+    // handle의 움직임
+    app.ticker.add(function (delta) {
+        // 핸들이 떨어지는경우
+        if (handle.status === HANDLE_STATUS_FALL) {
+            if (handle.y > 700) {
+                // 핸들이 최대한 떨어짐
+                handle.status = HANDLE_STATUS_GOUP;
+            } else {
+                handle.y += delta * 10;
+            }
+        }
+        // 핸들이 올라가는 경우
+        if (handle.status === HANDLE_STATUS_GOUP) {
+            handle.y -= delta * 3;
+        }
+        // 핸들이 한계까지 갔을경우
+    });
 };
 
 // 페이지 사이즈 변경
@@ -60,11 +88,13 @@ function onRender() {
 function onDragStart(event) {
     this.data = event.data;
     this.dragging = true;
+    handle.status = HANDLE_STATUS_FIXED;
 }
 
 function onDragEnd() {
     this.dragging = false;
     this.data = null;
+    handle.status = HANDLE_STATUS_FALL;
 }
 
 function onDragMove() {
