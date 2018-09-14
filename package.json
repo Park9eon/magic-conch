@@ -1,0 +1,12 @@
+{
+  "name": "magic-conch",
+  "version": "0.0.1",
+  "description": "마법의 소라고동",
+  "main": "index.js",
+  "author": "park9eon",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "pixi.js": "^4.8.2"
+  }
+}
