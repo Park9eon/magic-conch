@@ -1,5 +1,8 @@
 'use strict';
 
+var SOUND_LIST = ['가만있어.mp3', '그럼.mp3', '다시한번물어봐.mp3', '둘다먹지마.mp3', '안돼.mp3', '언젠가는.mp3'];
+var SOUND_KEY = ['STOP', "YES", "AGAIN", "NOTHING", "NO", "SOMETIME"];
+
 // 핸들이 원래 위치에 있는경우
 var HANDLE_STATUS_FIXED = 0;
 // 핸들이 떨어지는경우
@@ -19,6 +22,7 @@ var conch = null;
 var handle = null;
 var line = null;
 
+var isPull = false;
 
 // 페이지 로딩완료
 window.onload = function () {
@@ -32,7 +36,7 @@ window.onload = function () {
         .appendChild(app.view);
 
     // 소라고동 설정
-    conch = PIXI.Sprite.fromImage('conch.png');
+    conch = PIXI.Sprite.fromImage('assets/conch.png');
     conch.anchor.set(0.5);
     app.stage.addChild(conch);
 
@@ -57,6 +61,11 @@ window.onload = function () {
     app.stage.addChild(handle);
     onRender();
     drawLine(handle.x, handle.y);
+    // 음성 추가
+    for (var i = 0; i < SOUND_LIST.length; i++) {
+        PIXI.sound.add(SOUND_KEY[i], 'assets/' + SOUND_LIST[i]);
+    }
+    PIXI.sound.add('EFFECT', 'assets/effect.mp3');
     // handle의 움직임
     app.ticker.add(function (delta) {
         // 핸들이 떨어지는경우
@@ -67,13 +76,14 @@ window.onload = function () {
             var height = handle.y - HANDLE_Y;
             var width = handle.x - HANDLE_X;
             var scale = Math.abs(height / width);
-            var speed = 10 * Math.abs(width) / Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
+            var speed = 15 * Math.abs(width) / Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
             handle.y += scale * speed * (height > 0 ? -1 : 1);
             handle.x += speed * (width > 0 ? -1 : 1);
             if (Math.abs(width) < speed && Math.abs(height < scale * speed)) {
                 handle.x = HANDLE_X;
                 handle.y = HANDLE_Y;
                 handle.status = HANDLE_STATUS_FIXED;
+                playRandomSound();
             }
             drawLine(handle.x, handle.y);
         }
@@ -110,6 +120,9 @@ function onDragStart(event) {
     this.data = event.data;
     this.dragging = true;
     handle.status = HANDLE_STATUS_FIXED;
+    PIXI.sound.play('EFFECT', {
+        loop: true,
+    });
 }
 
 function onDragEnd() {
@@ -140,5 +153,6 @@ function drawLine(x, y) {
 }
 
 function playRandomSound() {
-    
+    PIXI.sound.stopAll();
+    PIXI.sound.play(SOUND_KEY[Math.floor(Math.random() * SOUND_KEY.length)]);
 }
