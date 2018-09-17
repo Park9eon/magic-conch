@@ -5,6 +5,24 @@
     <title>마법의 소라고동</title>
     <meta name="viewport"
           content="width=device-width, initial-scale=0.7">
+    <meta property="og:title"
+          content="마법의 소라고동">
+    <meta property="og:locale"
+          content="ko_KR">
+    <meta name="description"
+          content="마법의 소라고동이 답합니다.">
+    <meta property="og:description"
+          content="마법의 소라고동이 답합니다.">
+    <link rel="canonical"
+          href="http://park9eon.com/magic-conch">
+    <meta property="og:url"
+          content="http://park9eon.com/magic-conch">
+    <meta property="og:site_name"
+          content="마법의 소라고동">
+    <meta property="og:image"
+          content="http://http://park9eon.com/magic-conch/assets/seo-thumbnail.png"/>
+    <meta property="fb:app_id"
+          content="1305883689455263">
     <script src="node_modules/pixi.js/dist/pixi.min.js"></script>
     <script src="node_modules/pixi-sound/dist/pixi-sound.js"></script>
     <script src="index.js"></script>
@@ -33,6 +51,19 @@
             display: block;
             margin: 0 auto;
         }
+
+        .like-wrapper {
+            position: fixed;
+            z-index: 9;
+            top: 16px;
+            left: 0;
+            right: 0;
+        }
+        .like-inner {
+            display: block;
+            margin: auto;
+            width: 160px;
+        }
     </style>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async
@@ -53,6 +84,26 @@
     </script>
 </head>
 <body>
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = 'https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v3.1&appId=1305883689455263&autoLogAppEvents=1';
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<div class="like-wrapper">
+    <div class="like-inner">
+        <div class="fb-like"
+             data-href="http://park9eon.com/magic-conch/"
+             data-layout="button_count"
+             data-action="like"
+             data-size="large"
+             data-show-faces="true"
+             data-share="true"></div>
+    </div>
+</div>
 <div id="canvas-wrapper">
 </div>
 <div class="ad-wrapper">
