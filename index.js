@@ -87,6 +87,13 @@ window.onload = function () {
             }
             drawLine(handle.x, handle.y);
         }
+        if (!handle.x && !handle.y) {
+            console.error(handle.x, handle.y);
+            handle.x = HANDLE_X;
+            handle.y = HANDLE_Y;
+            handle.status = HANDLE_STATUS_FIXED;
+            playRandomSound();
+        }
         // 핸들이 한계까지 갔을경우
     });
 };
